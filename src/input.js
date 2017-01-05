@@ -93,8 +93,9 @@ function createInputInstance(manager) {
 
     if (inputClass) {
         Type = inputClass;
-    } else if (SUPPORT_POINTER_EVENTS) {
-        Type = PointerEventInput;
+    // Next lines are commented because of Chrome 55 Pointer Events support
+    //} else if (SUPPORT_POINTER_EVENTS) {
+    //    Type = PointerEventInput;
     } else if (SUPPORT_ONLY_TOUCH) {
         Type = TouchInput;
     } else if (!SUPPORT_TOUCH) {
