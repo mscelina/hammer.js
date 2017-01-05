@@ -1,7 +1,7 @@
-/*! Hammer.JS - v2.0.7 - 2016-04-22
+/*! Hammer.JS - v2.0.8 - 2017-01-17
  * http://hammerjs.github.io/
  *
- * Copyright (c) 2016 Jorik Tangelder;
+ * Copyright (c) 2017 Jorik Tangelder;
  * Licensed under the MIT license */
 (function(window, document, exportName, undefined) {
   'use strict';
@@ -473,7 +473,8 @@ function createInputInstance(manager) {
 
     if (inputClass) {
         Type = inputClass;
-    } else if (SUPPORT_POINTER_EVENTS) {
+    // Next line is changed because of Chrome 55 Pointer Events support but keep IE and Edge support
+    } else if (SUPPORT_POINTER_EVENTS && !SUPPORT_TOUCH) {
         Type = PointerEventInput;
     } else if (SUPPORT_ONLY_TOUCH) {
         Type = TouchInput;
@@ -1194,6 +1195,10 @@ var TOUCH_ACTION_MANIPULATION = 'manipulation'; // not implemented
 var TOUCH_ACTION_NONE = 'none';
 var TOUCH_ACTION_PAN_X = 'pan-x';
 var TOUCH_ACTION_PAN_Y = 'pan-y';
+var TOUCH_ACTION_PAN_UP = 'pan-up';
+var TOUCH_ACTION_PAN_DOWN = 'pan-down';
+var TOUCH_ACTION_PAN_LEFT = 'pan-left';
+var TOUCH_ACTION_PAN_RIGHT = 'pan-right';
 var TOUCH_ACTION_MAP = getTouchActionProps();
 
 /**
@@ -1340,7 +1345,18 @@ function getTouchActionProps() {
     }
     var touchMap = {};
     var cssSupports = window.CSS && window.CSS.supports;
-    ['auto', 'manipulation', 'pan-y', 'pan-x', 'pan-x pan-y', 'none'].forEach(function(val) {
+    [
+        'auto',
+        'manipulation',
+        'pan-y',
+        'pan-x',
+        'pan-x pan-y',
+        'none',
+        'pan-left',
+        'pan-right',
+        'pan-up',
+        'pan-down'
+    ].forEach(function(val) {
 
         // If css.supports is not supported but there is native touch-action assume it supports
         // all values. This is the case for IE 10 and 11.
@@ -1768,9 +1784,13 @@ inherit(PanRecognizer, AttrRecognizer, {
         var actions = [];
         if (direction & DIRECTION_HORIZONTAL) {
             actions.push(TOUCH_ACTION_PAN_Y);
+            actions.push(TOUCH_ACTION_PAN_UP);
+            actions.push(TOUCH_ACTION_PAN_DOWN);
         }
         if (direction & DIRECTION_VERTICAL) {
             actions.push(TOUCH_ACTION_PAN_X);
+            actions.push(TOUCH_ACTION_PAN_LEFT);
+            actions.push(TOUCH_ACTION_PAN_RIGHT);
         }
         return actions;
     },
@@ -2145,7 +2165,7 @@ function Hammer(element, options) {
 /**
  * @const {string}
  */
-Hammer.VERSION = '2.0.7';
+Hammer.VERSION = '2.0.8';
 
 /**
  * default settings
