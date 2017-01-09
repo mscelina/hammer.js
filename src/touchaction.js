@@ -8,6 +8,10 @@ var TOUCH_ACTION_MANIPULATION = 'manipulation'; // not implemented
 var TOUCH_ACTION_NONE = 'none';
 var TOUCH_ACTION_PAN_X = 'pan-x';
 var TOUCH_ACTION_PAN_Y = 'pan-y';
+var TOUCH_ACTION_PAN_UP = 'pan-up';
+var TOUCH_ACTION_PAN_DOWN = 'pan-down';
+var TOUCH_ACTION_PAN_LEFT = 'pan-left';
+var TOUCH_ACTION_PAN_RIGHT = 'pan-right';
 var TOUCH_ACTION_MAP = getTouchActionProps();
 
 /**
@@ -154,7 +158,18 @@ function getTouchActionProps() {
     }
     var touchMap = {};
     var cssSupports = window.CSS && window.CSS.supports;
-    ['auto', 'manipulation', 'pan-y', 'pan-x', 'pan-x pan-y', 'none'].forEach(function(val) {
+    [
+        'auto',
+        'manipulation',
+        'pan-y',
+        'pan-x',
+        'pan-x pan-y',
+        'none',
+        'pan-left',
+        'pan-right',
+        'pan-up',
+        'pan-down'
+    ].forEach(function(val) {
 
         // If css.supports is not supported but there is native touch-action assume it supports
         // all values. This is the case for IE 10 and 11.

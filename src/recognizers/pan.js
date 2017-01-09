@@ -28,9 +28,13 @@ inherit(PanRecognizer, AttrRecognizer, {
         var actions = [];
         if (direction & DIRECTION_HORIZONTAL) {
             actions.push(TOUCH_ACTION_PAN_Y);
+            actions.push(TOUCH_ACTION_PAN_UP);
+            actions.push(TOUCH_ACTION_PAN_DOWN);
         }
         if (direction & DIRECTION_VERTICAL) {
             actions.push(TOUCH_ACTION_PAN_X);
+            actions.push(TOUCH_ACTION_PAN_LEFT);
+            actions.push(TOUCH_ACTION_PAN_RIGHT);
         }
         return actions;
     },
